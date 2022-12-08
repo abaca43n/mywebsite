@@ -1,0 +1,441 @@
+/*以下为整体CSS........................................*/
+
+body{
+    margin: 0;
+}
+a:link,a:visited{/*超链接样式*/
+    color: black;
+    text-decoration: none;
+}
+a:hover{
+    text-decoration:underline;
+}
+a:active{
+    text-decoration: none;
+}
+.detail{/*头像详情框*/
+    display: none;
+    height:auto;
+    width: 300px;
+    position: absolute;
+    background-color:white;
+    border-radius:15px;
+    box-shadow:-3px 3px 10px 1px grey;
+    z-index: 100;  
+}
+.detail_1{
+    display:flex;
+    flex-direction: column;
+    padding:16px;
+}
+.detail_Pic{
+    display:flex;
+    width: 100%;
+    height: 80px;
+    box-sizing: border-box;
+    justify-content: space-between;
+}
+.detail_Pic_Head{
+    width: 80px;
+    height: 80px;
+    display: block;
+}
+.detail_Pic_HeadPic{
+    height: 80px;
+    width: 80px;
+    border-radius: 40px;
+    object-position: center;
+    object-fit: cover;
+}
+.detail_Attend_Letter{
+    width: 120px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+.detail_Attend{
+    height:30px;
+    width: 80px;
+ 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    border-radius: 15px;
+    border: solid black 1px;
+    cursor: pointer;
+}
+.detail_Attend_font{
+    font-size: 16px;
+    display: block;
+    user-select: none;
+    color: white;
+    pointer-events: none;
+}
+.detail_Letter{
+    height:30px;
+    width: 80px;
+    background-color:white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    border: solid black 1px;
+    cursor: pointer;
+}
+.detail_Letter_font{
+    font-size: 16px;
+    display: block;
+    user-select: none;
+}
+.detail_Nick_Username{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 100%;
+    height: 40px;
+    box-sizing: border-box;
+    margin-top: 8px;
+}
+.detail_Nickname{
+    height: 24px;
+    width: 100%;
+    font-size: 20px;
+    font-weight: bold;
+}
+.detail_Username{
+    height: 16px;
+    width: 100%;
+    font-size: 12px;
+}
+.detail_Introduction{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    margin-top: 8px;
+}
+/*以下为文章结构CSS.....................................*/
+.nav_left{
+    width: 220px;
+    height: auto;
+    background-color: white;
+    margin-right: 10px;
+}.nav_left_1{
+    position:fixed;
+    width: 220px;
+    height:100%;
+    background-color: white;
+}
+.nav_left_2{
+    width: 220px;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    align-items:center;
+    margin-top: 100px;
+}
+.nav_left_2_1{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.nav_left_2_2{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.nav_left_2_1_1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 25px;
+    padding:0 20px;
+    box-sizing: border-box;
+}
+.nav_left_2_1_2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 35px;
+    padding:0 20px;
+    box-sizing: border-box;
+    background-color: rgb(0, 178, 237);
+}
+.nav_left_font{
+    font-size: 24px;
+    user-select: none;
+    pointer-events: none;
+}
+.nav_left_font_current{
+    font-size: 24px;
+    user-select: none;
+    pointer-events: none;
+    font-weight: bolder;
+    color: deepskyblue;
+}
+.article_1{/*文章整体第一层*/
+    height:auto;
+    width:600px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.article_2{/*文章整体第二层*/
+    display: flex;
+    width: 600px;height: auto;
+    flex-direction: column;
+}
+.article_3{/*文章整体第三层，可修改圆角*/
+    display: flex;
+    flex-direction: column;
+    width:560px ;
+    height:auto;
+    background-color:white;
+    padding: 20px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow:0 0 3px 1px grey;
+}
+.header_1{/*文章头像，昵称，时间第一层*/
+    display:flex;
+    justify-content: left;
+    width: 100%;
+    height: 50px;
+    margin: 0 0 10px 0;
+}
+.header_P {/*头像样式*/
+    display: block;
+    margin: 0 10px 0 0;
+    height: 50px;
+    width: 50px;
+    
+  }
+.header_P1 {/*头像样式*/
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    object-position: center;
+    object-fit: cover;
+    
+  }
+.header_2{/*文章昵称，时间第一层*/
+    height:50px;
+    width: 410px;
+    margin: 0 10px 0 0;
+}
+.header_3{/*文章昵称，时间第二层,包含昵称与时间*/
+    display:flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    width: 100%;
+    height: 50px;
+}
+.header_4{/*昵称和用户名*/
+    display: flex;
+    justify-content: left;
+    width: 100%;
+    height: 20px;
+}
+.header_5{/*更多页面*/
+    width:100px;
+    height: 50px;
+    display: flex;
+    justify-content: flex-end;
+}
+.header_More{/*更多页面--具体*/
+    display: none;
+    height:auto;
+    width: 120px;
+    position: absolute;
+    background-color:white;
+    border-radius:8px;
+    margin-top: -8px;
+    margin-right: -8px;
+    box-shadow:3px 3px 10px 1px grey;
+    z-index: 100;  
+}
+.header_More_Detail{
+    display:flex;
+    flex-direction:column;
+    width: 100%;
+    height: auto;
+}
+.header_More_First{
+    width:120px;
+    height: 40px;
+    cursor: pointer;
+    border-bottom-left-radius:8px;
+    border-bottom-right-radius: 8px;
+}
+.header_More_Center{
+    width:120px;
+    height: 40px;
+    cursor: pointer;
+}
+.header_More_Last{
+    width:120px;
+    height: 40px;
+    cursor: pointer;
+    border-top-left-radius:8px;
+    border-top-right-radius: 8px;
+}
+.header_More_Text{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 40px;
+    user-select: none;
+    border-radius: 8px;
+}
+.More1{/*避免点击矢量图*/
+    pointer-events: none;
+}
+.header_nickname{/*昵称*/
+    width: auto;
+    height: 20px;
+    margin-right: 5px;
+    font-weight: bold;
+    user-select: none;
+}
+.header_username{/*用户名*/
+    width: auto;
+    height: 20px;
+    user-select: none;
+}
+.header_time{/*时间*/
+    width: auto;
+    height: 20px;
+    font-size: 12px;
+    line-height: 20px;
+    user-select: none;
+}
+.header_introduction{/*个人介绍*/
+    display: none;
+}
+.header_userid{/*个人介绍*/
+    display: none;
+}
+.text_1{/*正文第一层*/
+    display: flex;
+    flex-direction: column;
+    width:100%;
+    height:auto;
+    padding:0 0 0 60px;
+    box-sizing: border-box;
+}
+.footer_1{/*评论点赞转发第一层*/
+    background-color:white;
+    width:570px;
+    height:40px;
+    padding:0 15px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow:0 3px 3px 1px grey;
+}
+.footer_2{/*评论点赞转发第二层*/
+    display:flex;
+    justify-content:center;
+    width: 510px;
+    height: 40px;
+}
+.footer_3{/*评论点赞转发第三层*/
+    width: 170px;
+    height:40px
+}
+.footer_4{/*评论点赞转发第四层*/
+    display:flex;
+    justify-content:center;
+    align-items: center;
+    width: 190px;
+    height: 40px;
+    cursor: pointer;
+}
+.footer_5{/*评论点赞转发第五层*/
+    width: auto;
+    height:20px;
+}
+.footer_6{/*评论点赞转发第六层*/
+    display:flex;
+    justify-content:center;
+    align-items: center;
+    width:auto;
+    height:20px;
+}
+
+/*以下为矢量图图形CSS......................................*/
+
+.D_Svg-Num{/*点赞矢量图和数值整体*/
+    width: auto;
+    height: 20px;
+}
+.PZ_Svg-Num{/*评论转发矢量图和数值整体*/
+    width: auto;
+    height: 20px;
+}
+.M_Svg{/*更多 矢量图*/
+    display: block;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+.Svg{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+}
+.CircleBack{/*图标背景样式*/
+    position:absolute;
+    width:36px;
+    height:36px;margin:-8px;
+    border-radius: 18px;
+}
+.D_NoClick{/*未点赞图标样式*/
+    stroke:black;/*边框色*/
+    fill:#fff;/*填充色*/
+}
+.D_Click{/*被点赞图标样式*/
+    stroke:red;/*边框色*/
+    fill:red;/*填充色*/
+}
+.D_Hover_NoClick{
+    stroke:red;/*边框色*/
+    fill:#EE799F;/*填充色*/
+}
+.P_NoHover{/*未悬浮评论图标样式*/
+    stroke:black;/*边框色*/
+    fill:#fff;/*填充色*/
+}
+.P_Hover{/*悬浮评论图标样式*/
+    stroke:deepskyblue;/*边框色*/
+    fill:powderblue;/*填充色*/
+}
+.Z_NoHover{/*未悬浮转发图标样式*/
+    fill:black;/*边框色*/
+}
+.Z_Hover{/*悬浮转发图标样式*/
+    fill:deepskyblue;/*填充色*/
+}
+.M_NoHover{
+    fill:black;/*填充色*/
+}
+.M_Hover{
+    fill:deepskyblue;/*填充色*/
+    stroke:deepskyblue;/*边框色*/
+}  
+.Number{/*标记所有点赞评论转发数*/
+    text-align: center;
+    user-select: none;
+}
+.D_Number{
+    width: 40px;
+    height:20px;
+    margin-left: 30px;
+    display: block;
+}
