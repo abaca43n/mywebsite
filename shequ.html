@@ -1,0 +1,2061 @@
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="css/viewer.css">
+<link rel="stylesheet" href="css/ceshi.css">
+
+<script src="js/viewer.js"></script>
+<script src="js/jquery-3.6.1.js"></script>
+<script src="js/jquery-viewer.js"></script>
+
+
+<style>
+ul {
+	padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    width: 430px;
+    height: auto;
+    margin: 0;
+}
+
+li { 
+  list-style: none;
+  text-align: center;
+  border-radius: 5px;
+  width: 140px;
+  height: 140px;
+  margin-bottom: 5px;
+  margin-right: 5px;
+}
+li:nth-of-type(3n){ 
+  margin-right: 0;
+}
+
+li:nth-of-type(n+7){ 
+  margin-bottom: 0;
+}
+</style>
+
+
+<script>/*图片居中*/
+function PicCenter(object){
+    var Pic=new Array();
+    var x=object.width()/object.height()
+    if(x>1){
+        Pic[0]="left"
+        Pic[1]="-"+String((x-1)*50)+"%"
+        Pic[2]="height"
+    }else{
+        Pic[0]="top"
+        Pic[1]="-"+String((1/x-1)*50)+"%"
+        Pic[2]="width"
+    }
+    return Pic
+}
+$(document).ready(function(){
+    $(function(){
+        for(var i=0;i<$(".Picture").length;i++){
+            var x=$(this).find("li").length
+            if(x>1){
+                for(var i=0;i<x;i++){
+                    var p=PicCenter($(this).find("li").eq(i).children())
+                    $(this).find("li").eq(i).children().css(p[0],p[1])
+                    $(this).find("li").eq(i).children().css(p[2],"100%")
+                }
+            }
+        }
+    });
+})
+</script>
+<script>/*图片点击放大*/
+$(function(){
+// View a list of images
+$('.Picture').viewer();
+});
+</script>
+
+<script>/*鼠标悬停样式*/
+    $(document).ready(function(){/*点赞*/
+        $(".D_Svg-Num").hover(function(){
+            if($(this).children(".Svg").hasClass("D_Click")){
+                $(this).children(".Svg").prev().css("background-color","#EE799F");  
+            }
+            else{
+                $(this).children(".Svg").removeClass("D_NoClick");
+                $(this).children(".Svg").toggleClass("D_Hover_NoClick");
+                $(this).children(".Svg").prev().css("background-color","#EE799F");
+                $(this).children(".Svg").next().css("color","#EE799F");  
+            }
+        },function(){
+            if($(this).children(".Svg").hasClass("D_Click")){
+                $(this).children(".Svg").prev().css("background-color","white");  
+            }
+            if($(this).children(".Svg").hasClass("D_Hover_NoClick")){
+                $(this).children(".Svg").removeClass("D_Hover_NoClick");
+                $(this).children(".Svg").toggleClass("D_NoClick");
+                $(this).children(".Svg").prev().css("background-color","white");
+                $(this).children(".Svg").next().css("color","black");  
+            }
+            else{
+                $(this).children(".Svg").prev().css("background-color","white");
+            }
+        });     
+    }); 
+
+    $(document).ready(function(){/*评论*/
+        $(".P_Svg-Num").hover(function(){
+                $(this).children(".Svg").removeClass("P_NoHover");
+                $(this).children(".Svg").toggleClass("P_Hover");
+                $(this).children(".Svg").prev().css("background-color","powderblue");
+                $(this).children(".Svg").next().css("color","deepskyblue");  
+        },function(){
+                $(this).children(".Svg").removeClass("P_Hover");
+                $(this).children(".Svg").toggleClass("P_NoHover");
+                $(this).children(".Svg").prev().css("background-color","white");
+                $(this).children(".Svg").next().css("color","black");  
+
+        });     
+    });
+    
+    $(document).ready(function(){/*转发*/
+        $(".Z_Svg-Num").hover(function(){
+                $(this).children(".Svg").removeClass("Z_NoHover");
+                $(this).children(".Svg").toggleClass("Z_Hover");
+                $(this).children(".Svg").prev().css("background-color","powderblue");
+                $(this).children(".Svg").next().css("color","deepskyblue");  
+        },function(){
+                $(this).children(".Svg").removeClass("Z_Hover");
+                $(this).children(".Svg").toggleClass("Z_NoHover");
+                $(this).children(".Svg").prev().css("background-color","white");
+                $(this).children(".Svg").next().css("color","black");  
+
+        });     
+    });       
+</script>
+
+<script>/*点击控制数量*/
+    $(document).ready(function(){
+        $(".D_Svg-Num").click(function(){
+            var num = $(this).children(".Number").text();//获取初始数量
+            $(this).children(".Svg").toggleClass(function(){
+                if($(this).hasClass("D_Click")){
+                    num--;
+                    $(this).next().text(num);
+                    $(this).removeClass("D_Click");
+                    return "D_Hover_NoClick";
+                }
+                else{
+                    num++;
+			        $(this).next().text(num);
+                    $(this).removeClass("D_Hover_NoClick");
+                    $(this).next().css("color","#EE799F");
+                    return "D_Click";}
+            });
+        });
+    })
+</script>
+
+<script>/*随机获取初始数值*/
+$(document).ready(function(){
+        $(function () {
+		for (var i = 0; i < $('.Number').length; i++) {
+			var ran = Math.floor(Math.random() * 1000 + 1);
+			$('.Number').eq(i).text(ran);//为所有.Number属性对象赋值
+		}
+	    });
+    });
+</script>
+
+<script>/*头像显示详情*/
+function Initialize_detail(object){//初始化详情框数据
+    var nickname=$(object).parents(".header_P").nextAll(".header_2").find(".header_nickname").find("span").text()
+    var username=$(object).parents(".header_P").nextAll(".header_2").find(".header_username").find("span").text()
+    var introduction=$(object).parents(".header_P").nextAll(".header_2").find(".header_introduction").find("span").text()
+    var userid=$(object).parents(".header_P").nextAll(".header_2").find(".header_userid").find("span").text()
+    if($(object).parents(".article_1").hasClass("No_attend")){
+        $("#detail_attend").text("关注")
+        $(".detail_Attend").css("background-color","deepskyblue")
+    }else{
+        $("#detail_attend").text("取消关注")
+        $(".detail_Attend").css("background-color","gray")
+    }
+    $("#detail_P").attr("src",$(object).attr("src"))
+    $("#detail_nickname").text(nickname)
+    $("#detail_username").text(username)
+    $("#detail_introduction").text(introduction)
+    $("#detail_userid").text(userid)
+}
+    $(document).ready(function(){
+          var In_1=0//淡入计时器1
+          var In_2=0//淡入计时器2
+          var Out_1=0//淡出计时器1
+          var Out_2=0//淡出计时器2
+          var y=0//用于判断鼠标悬浮头像是否改变
+        $(".header_P1").hover(function(){
+            var $object=this
+            var x=$(this).offset();//获取头像元素位置
+            var t=$("#top").offset();//获取顶部导航栏位置
+            var len=(x.top-t.top)+60+$("#detail").height()//获取详情框下边框距离页面上边框的距离
+            if(y==0||y==x.top){//如果页面刚刚加载或者对象未变化
+                setTimeout(function(){Initialize_detail($object);},100)
+                clearTimeout(Out_1)
+                clearTimeout(Out_2)//终止所有淡出动画
+                y=x.top
+                if(len<window.innerHeight){
+                    In_1=setTimeout(function(){$("#detail").css({"top":"0px","left":"0px"});$("#detail").offset({top:x.top+60,left:x.left-125});$("#detail").fadeIn(300)},400);
+                }else{
+                    In_1=setTimeout(function(){$("#detail").css({"top":"0px","left":"0px"});$("#detail").offset({top:x.top-10-$("#detail").height(),left:x.left-125});$("#detail").fadeIn(300)},400);
+                }
+                
+            }
+            else{//如果对象变化
+                setTimeout(function(){Initialize_detail($object);},800)
+                y=x.top
+                if(len<window.innerHeight){
+                    In_2=setTimeout(function(){$("#detail").css({"top":"0px","left":"0px"});$("#detail").offset({top:x.top+60,left:x.left-125});$("#detail").fadeIn(300)},1000);
+                }else{
+                    In_2=setTimeout(function(){$("#detail").css({"top":"0px","left":"0px"});$("#detail").offset({top:x.top-10-$("#detail").height(),left:x.left-125});$("#detail").fadeIn(300)},1000);
+                }
+            }
+        },function(){
+            clearTimeout(In_1)
+            clearTimeout(In_2)//终止所有淡入动画
+            Out_1=setTimeout(function(){$("#detail").fadeOut(200)},600);       
+        }
+        );
+
+        $("#detail").hover(function(){//如果移到详情框
+            clearTimeout(Out_1);//终止淡出动画1
+        },function(){
+            Out_2=setTimeout(function(){$("#detail").fadeOut(200)},600); 
+        }
+        );
+    });
+    $(document).ready(function(){//关注-------------------
+        $(".detail_Attend").click(function(){
+            var id="."+$("#detail_userid").text()
+            if($(id).hasClass("No_attend")){
+                $(".detail_Attend").css("background-color","gray")
+                $("#detail_attend").text("取消关注")
+                $(id).removeClass("No_attend")
+                $(id).addClass("attend")
+            }else{
+                $(".detail_Attend").css("background-color","deepskyblue")
+                $("#detail_attend").text("关注")
+                $(id).removeClass("attend")
+                $(id).addClass("No_attend")
+            }
+        });
+    });
+
+</script>
+
+<script>/*文章更多选项*/
+    $(document).ready(function(){
+        $(".M_Svg").hover(function(){
+            $(this).children(".Svg").removeClass("M_NoHover");
+            $(this).children(".Svg").toggleClass("M_Hover");
+            $(this).children(".Svg").prev().css("background-color","powderblue");
+        },function(){
+            $(this).children(".Svg").removeClass("M_Hover");
+            $(this).children(".Svg").toggleClass("M_NoHover");
+            $(this).children(".Svg").prev().css("background-color","white");
+        });
+        $(document).click(function(event){
+            var cssList=event.target.classList
+            if(cssList.item(0)=="More"){
+                $(event.target.parentElement.previousElementSibling).fadeIn("fast")
+            }else{
+                $(".header_More").fadeOut(1);
+            }
+        }); 
+    });
+    $(document).ready(function(){
+        $(".header_More_Text").hover(function(){
+            $(this).css("background-color","rgb(240, 240, 240)")
+        },function(){
+            $(this).css("background-color","white")
+        });
+    });
+
+    $(document).ready(function(){//收藏---------------------
+        $(".more_Star").click(function(){
+            if($(this).parents(".article_1").hasClass("No_star")){
+                $(this).parent().find("span").text("取消收藏")
+                $(this).parents(".article_1").removeClass("No_star")
+                $(this).parents(".article_1").addClass("star")
+            }else{
+                $(this).parent().find("span").text("收藏")
+                $(this).parents(".article_1").removeClass("star")
+                $(this).parents(".article_1").addClass("No_star")
+            }
+        });
+    });
+    $(document).ready(function(){//屏蔽文章-------------------
+        $(".more_Black").click(function(){
+            if($(this).parents(".article_1").hasClass("No_black")){
+                $(this).parent().find("span").text("取消屏蔽文章")
+                $(this).parents(".article_1").css("display","none")
+                $(this).parents(".article_1").removeClass("No_black")
+                $(this).parents(".article_1").addClass("black")
+            }else{
+                $(this).parent().find("span").text("屏蔽文章")
+                $(this).parents(".article_1").css("display","none")
+                $(this).parents(".article_1").removeClass("black")
+                $(this).parents(".article_1").addClass("No_black")
+            }
+        });
+    });
+    $(document).ready(function(){//屏蔽作者--------------------
+        $(".more_Blacklist").click(function(){
+            var id="."+$(this).parents(".article_1").find(".header_userid").find("span").text()
+            if($(this).parents(".article_1").hasClass("No_blacklist")){
+                $(id).find(".more_Blacklist").find("span").text("取消屏蔽作者")
+                $(id).css("display","none")
+                $(id).removeClass("No_blacklist")
+                $(id).addClass("blacklist")
+            }else{
+                $(id).find(".more_Blacklist").find("span").text("屏蔽作者")
+                $(id).css("display","none")
+                $(id).removeClass("blacklist")
+                $(id).addClass("No_blacklist")
+            }
+        });
+    });
+</script>
+<script>/*左导航栏*/
+    $(document).ready(function(){
+        $(".nav_left_2_1").hover(function(){
+            $(this).children().css("background-color","rgb(230, 230, 230)")
+        },function(){
+            $(this).children().css("background-color","white")
+        });
+    });
+    $(document).ready(function(){
+        $(".nav_left_2_2").hover(function(){
+            $(this).children().css("background-color","rgb(0, 178, 237)")
+        },function(){
+            $(this).children().css("background-color","deepskyblue")
+        });
+    });
+    $(document).ready(function(){
+        $(".nav_left_2_1").click(function(){
+            var id=$(this).attr("id")
+            if($(this).find("span").hasClass("nav_left_font")){
+                $(".nav_left_font_current").addClass("nav_left_font")
+                $(".nav_left_font_current").removeClass("nav_left_font_current")
+                $(this).find("span").addClass("nav_left_font_current")
+            }
+            if(id=="main"){
+                $(".No_blacklist").css("display","block")
+                $(".No_black").css("display","block")
+                $(".blacklist").css("display","none")
+                $(".black").css("display","none")
+            }else{
+                if(id=="attend"){
+                    $(".attend").css("display","block")
+                    $(".No_attend").css("display","none")
+                }else{
+                    if(id=="star"){
+                        $(".star").css("display","block")
+                        $(".No_star").css("display","none")
+                    }else{
+                        if(id=="black"){
+                            for(var i=0;i<$(".article_1").length;i++){
+                                
+                                if($(".article_1").eq(i).hasClass("blacklist")){
+                                    $(".article_1").eq(i).css("display","block")
+                                }else{
+                                    if($(".article_1").eq(i).hasClass("black")){
+                                        console.log(1)
+                                        $(".article_1").eq(i).css("display","block")
+                                    }else{
+                                        $(".article_1").eq(i).css("display","none")
+                                    }
+                                }  
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    });   
+</script>
+<script>/*随机获取设定时间并确定显示方式*/
+function randomTime (){
+    var mydate=new Date;
+    var randomYear=Math.floor(Math.random()*2+2021);/*随机设置年份*/
+    var randomMonth=Math.floor(Math.random()*12+1);/*随机设置月份*/
+    var randomDate=Math.floor(Math.random()*28+1);/*随机设置日期*/
+    var randomHour=Math.floor(Math.random()*24);/*随机设置小时*/
+    var randomMin=Math.floor(Math.random()*60);/*随机设置分钟*/
+    var displayTime;
+    if(randomYear==mydate.getFullYear()){
+        if(randomMonth==mydate.getMonth()){
+            if(randomDate==mydate.getDate()){
+                displayTime=String(randomHour).padStart(2,"0")+":"+String(randomMin).padStart(2,"0")
+            }
+        }else{
+            displayTime=randomMonth+"月"+randomDate+"日 "+String(randomHour).padStart(2,"0")+":"+String(randomMin).padStart(2,"0")
+        }
+    }else{
+        displayTime=randomYear+"年"+randomMonth+"月"+randomDate+"日 "+String(randomHour).padStart(2,"0")+":"+String(randomMin).padStart(2,"0")
+    }
+    return displayTime
+}
+$(document).ready(function(){
+    $(function () {
+		for (var i = 0; i < $('.header_time').length; i++) {
+			$('.header_time').eq(i).text(randomTime());//为所有.Number属性对象赋值
+		}
+	    })
+})
+</script>
+</head>
+
+<body>
+    <div id="detail" class="detail"><!--详情框---------------------------->
+        <div class="detail_1">
+            <div class="detail_Pic">
+                <div class="detail_Pic_Head">
+                    <a href="#">
+                        <img id="detail_P" src="image/1.png" class="detail_Pic_HeadPic">
+                    </a>
+                </div>
+                <div class="detail_Attend_Letter">
+                    <div class="detail_Attend">
+                        <span id="detail_attend" class="detail_Attend_font">关注</span>
+                    </div>
+                    <div class="detail_Letter">
+                        <a href="#">
+                            <span class="detail_Letter_font">私信</span>
+                        </a>    
+                    </div>
+                </div>
+            </div>
+            <div class="detail_Nick_Username">
+                <div class="detail_Nickname">
+                    <a href="#">
+                        <span id="detail_nickname" style="font-size: 20px;font-weight: bold;">
+                        </span>
+                    </a>
+                </div>
+                <div class="detail_Username">
+                    <a href="#">
+                        <span id="detail_username" style="font-size: 14px;">
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="detail_Introduction">
+                <div style="width: 100%;height: auto;">
+                    <span id="detail_introduction" style="font-size:16px;">
+                    </span>
+                </div>
+            </div>
+            <div style="display: none;">
+                <span id="detail_userid"></span>
+            </div>
+            <div style="height: 30px;width: 100%;display: flex;justify-content:flex-start;margin-top: 10px;">
+                <div style="display: flex;justify-content: flex-start;align-items: center;height: 30px;width: 100px;">
+                    <span style="font-weight:bolder;font-size: 18px;user-select: none;">粉丝:</span>
+                    <span id="fans_number" style="user-select: none;">1245</span>
+                </div>
+                <div style="display: flex;justify-content: flex-start;align-items: center;height: 30px;width: 100px;">
+                    <span style="font-weight:bolder;font-size: 18px;user-select: none;">文章:</span>
+                    <span id="article_number" style="user-select: none;">356</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="width:100%;height:auto;display:flex;flex-direction: column;align-items: center;"><!--整个页面--------------------------->
+        <div style="height:60px;width:100%;background-color: #151515;"><!--顶部导航栏------------------------------------------------------------------------->
+            <div id="top" style="position: fixed;width:100%;height:60px;z-index: 1000;padding:0 15px;background-color: #151515;">
+                <div  style="display: flex;justify-content: flex-start;width:100%;height:60px;">
+                    <div style="height: 60px;width: 64px;cursor: pointer;">
+                        <a href="index.html"> <div style="display: flex;justify-content: center;align-items: center;width: 100%;height: 100%;"><span style="font-size: 18px;display: block;letter-spacing: .05em;user-select: none;color: white;">首页</span></div></a> 
+                    </div>
+                    <div style="height: 60px;width: 64px;margin-left: 16px;cursor: pointer;">
+                        <div style="display: flex;justify-content: center;align-items: center;width: 100%;height: 100%;background-color: rgb(152, 152, 152);"><span style="font-size: 18px;display: block;letter-spacing: .05em;user-select: none;color: white;">社区</span></div>
+                    </div>
+                    <div style="height: 60px;width: 98px;margin-left: 16px;cursor: pointer;">
+                        <a href="typography.html"> <div style="display: flex;justify-content: center;align-items: center;width: 100%;height: 100%;"><span style="font-size: 18px;display: block;letter-spacing: .05em;user-select: none;color: white;">工作分配</span></div></a> 
+                    </div>
+                    <div style="height: 60px;width: 98px;margin-left: 16px;cursor: pointer;">
+                        <a href="contact-us.html"> <div style="display: flex;justify-content: center;align-items: center;width: 100%;height: 100%;"><span style="font-size: 18px;display: block;letter-spacing: .05em;user-select: none;color: white;">联系我们</span></div></a> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="width:100%;height:auto;"><!--导航栏下面------------------------------------------>
+            <div style="width: 100%;height:auto;display: flex;justify-content: center;"><!--主体---------------------------->
+                <div class="nav_left"><!--左导航栏-------------------------------------------------------------->
+                    <div class="nav_left_1">
+                        <div class="nav_left_2">
+                            <div style="display: flex;justify-content: center;width: 220px;min-height: 80px;margin-bottom: 20px;">
+                                <div style="width: 80px;height: 80px;">
+                                    <a href="http://tourism.fudan.edu.cn/main.htm"target="_blank">
+                                        <img src="image/headP/fudan/xiaohui.png" style="width: 80px;height: 80px;border-radius: 40px;">
+                                    </a>                                   
+                                </div>
+                            </div>
+                            <div id="main" class="nav_left_2_1" style="width:220px ;height: 50px;">
+                                <div class="nav_left_2_1_1" style="width: 130px;height: 50px;">
+                                    <span class="nav_left_font_current">主页</span>
+                                </div>
+                            </div>
+                            <div id="attend" class="nav_left_2_1" style="width:220px ;height: 50px;">
+                                <div class="nav_left_2_1_1" style="width: 130px;height: 50px;">
+                                    <span class="nav_left_font">关注</span>
+                                </div>
+                            </div>
+                            <div id="star" class="nav_left_2_1" style="width:220px ;height: 50px;">
+                                <div class="nav_left_2_1_1" style="width: 130px;height: 50px;">
+                                    <span class="nav_left_font">收藏</span>
+                                </div>
+                            </div>
+                            <div id="black" class="nav_left_2_1" style="width:220px ;height: 50px;">
+                                <div class="nav_left_2_1_1" style="width: 150px;height: 50px;">
+                                    <span class="nav_left_font">黑名单</span>
+                                </div>
+                            </div>
+                            <div class="nav_left_2_2" style="width:220px ;height: 60px;">
+                                <div class="nav_left_2_1_2" style="width: 220px;height: 60px;">
+                                    <span class="nav_left_font" style="color:white;font-weight: bold;">发文</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>               
+                <div style="display: flex;flex-direction: column;align-items: center;width: 600px;height: auto;"><!--帖子内容------------>
+                    <div class="article_1 No_attend No_star No_black No_blacklist FudanUniversity"><!--以下为帖子内容------------------------------------------------------------->
+                        <div class="article_2">
+                            <!--以下为头像文本图片内容-------------------------------------------------------------------->
+                            <div class="article_3">
+                                <header class="header_1">
+                                    <div class="header_P"><!--头像------------------------------------------------------->
+                                        <a href="#">
+                                            <img src="image/headP/fudan/xiaohui.png" class="header_P1">
+                                        </a>
+                                    </div>
+                                    <!---->
+                                    <div class="header_2"><!--昵称时间----------------------------------------------------->
+                                        <div class="header_3">
+                                            <div class="header_4">
+                                                <div class="header_nickname">
+                                                    <a href="#">
+                                                        <span>复旦大学</span>
+                                                    </a>
+                                                </div>
+                                                <div class="header_username">
+                                                    <a href="#">
+                                                        <span>@FudanUniversity</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="header_time">
+                                                <a href="#">
+                                                    <span></span>
+                                                </a>
+                                            </div>
+                                            <div class="header_introduction">
+                                                <span>个人简介</span>
+                                            </div>
+                                            <div class="header_userid">
+                                                <span>FudanUniversity</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!---->
+                                    <div class="header_5"><!--更多页面-------------------------------------------------------->
+                                        <div class="header_More">
+                                            <div class="More header_More_Detail">
+                                                <div class="header_More_First">
+                                                    <div class="More header_More_Text more_Star">
+                                                        <span style="pointer-events:none;">收藏</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text">
+                                                        <span style="pointer-events:none;">分享</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text more_Black">
+                                                        <span style="pointer-events:none;">屏蔽文章</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text more_Blacklist">
+                                                        <span style="pointer-events:none;">屏蔽作者</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Last">
+                                                    <div class="More header_More_Text">
+                                                        <span style="pointer-events:none;">举报文章</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="M_Svg">
+                                            <div class="More CircleBack"></div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="More Svg M_NoHover">
+                                                <g>
+                                                 <path class="More More1" d="m1,10c0,-1.1 0.9,-2 2,-2s2,0.9 2,2s-0.9,2 -2,2s-2,-0.9 -2,-2zm9,2c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2s-2,0.9 -2,2s0.9,2 2,2zm7,0c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2s-2,0.9 -2,2s0.9,2 2,2z"/>
+                                                </g>
+                                               </svg>
+                                        </div>
+                                    </div>
+                                </header>
+                                <!--以下为正文部分---------------------------------------------------------------------------->
+                                <div class="text_1">
+                                    <div style="width: 100%; margin-bottom: 10px;">
+                                        欢迎来到复旦大学旅游管理社区论坛中心，在这里，和大家一起分享你的旅游故事或者对我们专业的看法吧！
+                                    </div>
+                                    <!--以下为图片部分------------------------------------------------------------------------>
+                                    <div style="width: 440px;height:auto;">
+                                        <div>
+                                            <ul class="Picture">
+                                              <li style="overflow:hidden;">
+                                                <img src="image/articleP/fudan/1.jpg" style="position: relative;border-radius: 5px;">
+                                              </li>
+                                              <li style="overflow:hidden;">
+                                                <img src="image/articleP/fudan/2.jpg" style="position: relative;border-radius: 5px;">
+                                              </li>
+        
+                                            </ul>
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--以下为评论转发内容---------------------------------------------------------------------------->
+                            <footer class="footer_1">
+                                <div class="footer_2">
+                                    <!--点赞-------------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="D_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="D_NoClick Svg">
+                                                            <g>
+                                                             <path d="m7.496139,15.922328c-4.49935,-3.903925 -6.108047,-6.373478 -6.121084,-9.396658c-0.011889,-2.755999 1.973964,-5.415943 4.03195,-5.400604c1.027667,0.007675 3.232078,1.022034 4.012667,1.846453c0.393307,0.41539 0.579596,0.374428 1.455252,-0.319984c2.383166,-1.889894 4.710351,-1.929562 6.217538,-0.105973c2.408806,2.914478 1.970256,6.394897 -1.260681,10.005032c-1.717752,1.919357 -5.468946,5.324405 -5.865664,5.324405c-0.120716,0 -1.232205,-0.878704 -2.469978,-1.952671l0,0.000001z" stroke-width="2"/>
+                                                            </g>
+                                                           </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--评论-------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="P_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="P_NoHover Svg">
+                                                            <g>
+                                                             <path d="m0.875,3.44212l0,0c0,-1.107121 0.936238,-2.00462 2.091146,-2.00462l0.950521,0l0,0l4.562501,0l8.554686,0c0.554608,0 1.086498,0.2112 1.478665,0.587139c0.392164,0.375939 0.612482,0.885822 0.612482,1.41748l0,5.01155l0,0l0,3.006929l0,0c0,1.107121 -0.936237,2.00462 -2.091146,2.00462l-8.554686,0l-5.960344,5.097282l1.397843,-5.097282l-0.950521,0c-1.154908,0 -2.091146,-0.897498 -2.091146,-2.00462l0,0l0,-3.006929l0,0l-0.000001,-5.01155z" fill-opacity="null" stroke-width="2"/>
+                                                            </g>
+                                                           </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--转发-------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="Z_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="Z_NoHover Svg">
+                                                            <g>
+                                                             <path d="m3.52141,1.755l3.82842,4.20373l-1.17824,1.48248l-1.78636,-1.95971l0,8.58008c0,1.11693 0.77398,2.03079 1.72763,2.03079l4.75097,0l0,2.03079l-4.75097,0c-1.90816,0 -3.45525,-1.81756 -3.45525,-4.06158l0,-8.58008l-1.78636,1.95971l-1.17824,-1.48248l3.82842,-4.20373zm10.36575,2.15264l-4.75097,0l0,-2.03079l4.75097,0c1.90816,0 3.45525,1.81756 3.45525,4.06158l0,8.58008l1.78636,-1.95971l1.17824,1.48248l-3.82842,4.20373l-3.82842,-4.20373l1.17824,-1.48248l1.78636,1.95971l0,-8.58008c0,-1.11693 -0.77398,-2.03079 -1.72763,-2.03079z"/>
+                                                           </g>
+                                                          </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </footer>
+                        </div>
+                    </div>
+                    <div class="article_1 No_attend No_star No_black No_blacklist August"><!--以下为帖子内容------------------------------------------------------------->
+                        <div class="article_2">
+                            <!--以下为头像文本图片内容-------------------------------------------------------------------->
+                            <div class="article_3">
+                                <header class="header_1">
+                                    <div class="header_P"><!--头像------------------------------------------------------->
+                                        <a href="#">
+                                            <img src="image/headP/August/August.jpeg" class="header_P1">
+                                        </a>
+                                    </div>
+                                    <!---->
+                                    <div class="header_2"><!--昵称时间----------------------------------------------------->
+                                        <div class="header_3">
+                                            <div class="header_4">
+                                                <div class="header_nickname">
+                                                    <a href="#">
+                                                        <span>最美的八月</span>
+                                                    </a>
+                                                </div>
+                                                <div class="header_username">
+                                                    <a href="#">
+                                                        <span>@August</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="header_time">
+                                                <a href="#">
+                                                    <span></span>
+                                                </a>
+                                            </div>
+                                            <div class="header_introduction">
+                                                <span>个人简介</span>
+                                            </div>
+                                            <div class="header_userid">
+                                                <span>August</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!---->
+                                    <div class="header_5"><!--更多页面-------------------------------------------------------->
+                                        <div class="header_More">
+                                            <div class="More header_More_Detail">
+                                                <div class="header_More_First">
+                                                    <div class="More header_More_Text more_Star">
+                                                        <span style="pointer-events:none;">收藏</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text">
+                                                        <span style="pointer-events:none;">分享</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text more_Black">
+                                                        <span style="pointer-events:none;">屏蔽文章</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text more_Blacklist">
+                                                        <span style="pointer-events:none;">屏蔽作者</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Last">
+                                                    <div class="More header_More_Text">
+                                                        <span style="pointer-events:none;">举报文章</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="M_Svg">
+                                            <div class="More CircleBack"></div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="More Svg M_NoHover">
+                                                <g>
+                                                 <path class="More More1" d="m1,10c0,-1.1 0.9,-2 2,-2s2,0.9 2,2s-0.9,2 -2,2s-2,-0.9 -2,-2zm9,2c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2s-2,0.9 -2,2s0.9,2 2,2zm7,0c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2s-2,0.9 -2,2s0.9,2 2,2z"/>
+                                                </g>
+                                               </svg>
+                                        </div>
+                                    </div>
+                                </header>
+                                <!--以下为正文部分---------------------------------------------------------------------------->
+                                <div class="text_1">
+                                    <div style="width: 100%; margin-bottom: 10px;">
+                                        
+                                    </div>
+                                    <!--以下为图片部分------------------------------------------------------------------------>
+                                    <div style="width: 440px;height:auto;">
+                                        <div>
+                                            <ul class="Picture">
+                                              <li style="height: 100%;">
+                                                <img src="image/articleP/August/2/1.jpeg" style="width: 440px;height:auto;border-radius: 5px;">
+                                              </li>
+                                        
+                                            </ul>
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--以下为评论转发内容---------------------------------------------------------------------------->
+                            <footer class="footer_1">
+                                <div class="footer_2">
+                                    <!--点赞-------------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="D_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="D_NoClick Svg">
+                                                            <g>
+                                                             <path d="m7.496139,15.922328c-4.49935,-3.903925 -6.108047,-6.373478 -6.121084,-9.396658c-0.011889,-2.755999 1.973964,-5.415943 4.03195,-5.400604c1.027667,0.007675 3.232078,1.022034 4.012667,1.846453c0.393307,0.41539 0.579596,0.374428 1.455252,-0.319984c2.383166,-1.889894 4.710351,-1.929562 6.217538,-0.105973c2.408806,2.914478 1.970256,6.394897 -1.260681,10.005032c-1.717752,1.919357 -5.468946,5.324405 -5.865664,5.324405c-0.120716,0 -1.232205,-0.878704 -2.469978,-1.952671l0,0.000001z" stroke-width="2"/>
+                                                            </g>
+                                                           </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--评论-------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="P_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="P_NoHover Svg">
+                                                            <g>
+                                                             <path d="m0.875,3.44212l0,0c0,-1.107121 0.936238,-2.00462 2.091146,-2.00462l0.950521,0l0,0l4.562501,0l8.554686,0c0.554608,0 1.086498,0.2112 1.478665,0.587139c0.392164,0.375939 0.612482,0.885822 0.612482,1.41748l0,5.01155l0,0l0,3.006929l0,0c0,1.107121 -0.936237,2.00462 -2.091146,2.00462l-8.554686,0l-5.960344,5.097282l1.397843,-5.097282l-0.950521,0c-1.154908,0 -2.091146,-0.897498 -2.091146,-2.00462l0,0l0,-3.006929l0,0l-0.000001,-5.01155z" fill-opacity="null" stroke-width="2"/>
+                                                            </g>
+                                                           </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--转发-------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="Z_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="Z_NoHover Svg">
+                                                            <g>
+                                                             <path d="m3.52141,1.755l3.82842,4.20373l-1.17824,1.48248l-1.78636,-1.95971l0,8.58008c0,1.11693 0.77398,2.03079 1.72763,2.03079l4.75097,0l0,2.03079l-4.75097,0c-1.90816,0 -3.45525,-1.81756 -3.45525,-4.06158l0,-8.58008l-1.78636,1.95971l-1.17824,-1.48248l3.82842,-4.20373zm10.36575,2.15264l-4.75097,0l0,-2.03079l4.75097,0c1.90816,0 3.45525,1.81756 3.45525,4.06158l0,8.58008l1.78636,-1.95971l1.17824,1.48248l-3.82842,4.20373l-3.82842,-4.20373l1.17824,-1.48248l1.78636,1.95971l0,-8.58008c0,-1.11693 -0.77398,-2.03079 -1.72763,-2.03079z"/>
+                                                           </g>
+                                                          </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </footer>
+                        </div>
+                    </div>
+                    <div class="article_1 No_attend No_star No_black No_blacklist iKun121"><!--以下为帖子内容------------------------------------------------------------->
+                        <div class="article_2">
+                            <!--以下为头像文本图片内容-------------------------------------------------------------------->
+                            <div class="article_3">
+                                <header class="header_1">
+                                    <div class="header_P"><!--头像------------------------------------------------------->
+                                        <a href="#">
+                                            <img src="image/headP/iKun121/ikun.jpeg" class="header_P1">
+                                        </a>
+                                    </div>
+                                    <!---->
+                                    <div class="header_2"><!--昵称时间----------------------------------------------------->
+                                        <div class="header_3">
+                                            <div class="header_4">
+                                                <div class="header_nickname">
+                                                    <a href="#">
+                                                        <span>开朗的网友</span>
+                                                    </a>
+                                                </div>
+                                                <div class="header_username">
+                                                    <a href="#">
+                                                        <span>@iKun121</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="header_time">
+                                                <a href="#">
+                                                    <span></span>
+                                                </a>
+                                            </div>
+                                            <div class="header_introduction">
+                                                <span>个人简介</span>
+                                            </div>
+                                            <div class="header_userid">
+                                                <span>iKun121</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!---->
+                                    <div class="header_5"><!--更多页面-------------------------------------------------------->
+                                        <div class="header_More">
+                                            <div class="More header_More_Detail">
+                                                <div class="header_More_First">
+                                                    <div class="More header_More_Text more_Star">
+                                                        <span style="pointer-events:none;">收藏</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text">
+                                                        <span style="pointer-events:none;">分享</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text more_Black">
+                                                        <span style="pointer-events:none;">屏蔽文章</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text more_Blacklist">
+                                                        <span style="pointer-events:none;">屏蔽作者</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Last">
+                                                    <div class="More header_More_Text">
+                                                        <span style="pointer-events:none;">举报文章</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="M_Svg">
+                                            <div class="More CircleBack"></div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="More Svg M_NoHover">
+                                                <g>
+                                                 <path class="More More1" d="m1,10c0,-1.1 0.9,-2 2,-2s2,0.9 2,2s-0.9,2 -2,2s-2,-0.9 -2,-2zm9,2c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2s-2,0.9 -2,2s0.9,2 2,2zm7,0c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2s-2,0.9 -2,2s0.9,2 2,2z"/>
+                                                </g>
+                                               </svg>
+                                        </div>
+                                    </div>
+                                </header>
+                                <!--以下为正文部分---------------------------------------------------------------------------->
+                                <div class="text_1">
+                                    <div style="width: 100%; margin-bottom: 10px;">
+                                        我是19考生，选择了旅游管理专业。当初选的时候也看了好多关于这个专业的负面评价，但是还是选了。其实真要问起来每个专业大家都不推荐，都说不好就业。但是我个人学了这个专业之后觉得我的选择没有错， 
+旅游管理本科专业可以去途牛，携程，苏宁酒店”这些公司否，其实完全没必要担心啊 。看的出你想以后进入在线旅游行业，三年前我一样担心，但是三年后在线旅游行业的几家公司我都能拿到offer，虽然工作压力大些，但是回过头想想，这不正式自己以前期望的吗？
+所以自信的往前走吧，两个词六个字：谦虚、保持学习。
+                                    </div>
+                                    <!--以下为图片部分------------------------------------------------------------------------>
+                                    <div style="width: 440px;height:auto;">
+                                        <div>
+                                            <ul class="Picture">
+                                              <li style="overflow:hidden;">
+                                                <img src="image/articleP/iKun121/2/1.jpeg" style="position: relative;border-radius: 5px;">
+                                              </li>
+                                              <li style="overflow:hidden;">
+                                                <img src="image/articleP/iKun121/2/2.jpeg" style="position: relative;border-radius: 5px;">
+                                              </li>
+        
+                                            </ul>
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--以下为评论转发内容---------------------------------------------------------------------------->
+                            <footer class="footer_1">
+                                <div class="footer_2">
+                                    <!--点赞-------------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="D_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="D_NoClick Svg">
+                                                            <g>
+                                                             <path d="m7.496139,15.922328c-4.49935,-3.903925 -6.108047,-6.373478 -6.121084,-9.396658c-0.011889,-2.755999 1.973964,-5.415943 4.03195,-5.400604c1.027667,0.007675 3.232078,1.022034 4.012667,1.846453c0.393307,0.41539 0.579596,0.374428 1.455252,-0.319984c2.383166,-1.889894 4.710351,-1.929562 6.217538,-0.105973c2.408806,2.914478 1.970256,6.394897 -1.260681,10.005032c-1.717752,1.919357 -5.468946,5.324405 -5.865664,5.324405c-0.120716,0 -1.232205,-0.878704 -2.469978,-1.952671l0,0.000001z" stroke-width="2"/>
+                                                            </g>
+                                                           </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--评论-------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="P_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="P_NoHover Svg">
+                                                            <g>
+                                                             <path d="m0.875,3.44212l0,0c0,-1.107121 0.936238,-2.00462 2.091146,-2.00462l0.950521,0l0,0l4.562501,0l8.554686,0c0.554608,0 1.086498,0.2112 1.478665,0.587139c0.392164,0.375939 0.612482,0.885822 0.612482,1.41748l0,5.01155l0,0l0,3.006929l0,0c0,1.107121 -0.936237,2.00462 -2.091146,2.00462l-8.554686,0l-5.960344,5.097282l1.397843,-5.097282l-0.950521,0c-1.154908,0 -2.091146,-0.897498 -2.091146,-2.00462l0,0l0,-3.006929l0,0l-0.000001,-5.01155z" fill-opacity="null" stroke-width="2"/>
+                                                            </g>
+                                                           </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--转发-------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="Z_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="Z_NoHover Svg">
+                                                            <g>
+                                                             <path d="m3.52141,1.755l3.82842,4.20373l-1.17824,1.48248l-1.78636,-1.95971l0,8.58008c0,1.11693 0.77398,2.03079 1.72763,2.03079l4.75097,0l0,2.03079l-4.75097,0c-1.90816,0 -3.45525,-1.81756 -3.45525,-4.06158l0,-8.58008l-1.78636,1.95971l-1.17824,-1.48248l3.82842,-4.20373zm10.36575,2.15264l-4.75097,0l0,-2.03079l4.75097,0c1.90816,0 3.45525,1.81756 3.45525,4.06158l0,8.58008l1.78636,-1.95971l1.17824,1.48248l-3.82842,4.20373l-3.82842,-4.20373l1.17824,-1.48248l1.78636,1.95971l0,-8.58008c0,-1.11693 -0.77398,-2.03079 -1.72763,-2.03079z"/>
+                                                           </g>
+                                                          </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </footer>
+                        </div>
+                    </div>
+                    <div class="article_1 No_attend No_star No_black No_blacklist foryou"><!--以下为帖子内容------------------------------------------------------------->
+                        <div class="article_2">
+                            <!--以下为头像文本图片内容-------------------------------------------------------------------->
+                            <div class="article_3">
+                                <header class="header_1">
+                                    <div class="header_P"><!--头像------------------------------------------------------->
+                                        <a href="#">
+                                            <img src="image/headP/foryou/foryou.jpg" class="header_P1">
+                                        </a>
+                                    </div>
+                                    <!---->
+                                    <div class="header_2"><!--昵称时间----------------------------------------------------->
+                                        <div class="header_3">
+                                            <div class="header_4">
+                                                <div class="header_nickname">
+                                                    <a href="#">
+                                                        <span>只因你太美</span>
+                                                    </a>
+                                                </div>
+                                                <div class="header_username">
+                                                    <a href="#">
+                                                        <span>@foryou</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="header_time">
+                                                <a href="#">
+                                                    <span></span>
+                                                </a>
+                                            </div>
+                                            <div class="header_introduction">
+                                                <span>个人简介</span>
+                                            </div>
+                                            <div class="header_userid">
+                                                <span>foryou</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!---->
+                                    <div class="header_5"><!--更多页面-------------------------------------------------------->
+                                        <div class="header_More">
+                                            <div class="More header_More_Detail">
+                                                <div class="header_More_First">
+                                                    <div class="More header_More_Text more_Star">
+                                                        <span style="pointer-events:none;">收藏</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text">
+                                                        <span style="pointer-events:none;">分享</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text more_Black">
+                                                        <span style="pointer-events:none;">屏蔽文章</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text more_Blacklist">
+                                                        <span style="pointer-events:none;">屏蔽作者</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Last">
+                                                    <div class="More header_More_Text">
+                                                        <span style="pointer-events:none;">举报文章</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="M_Svg">
+                                            <div class="More CircleBack"></div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="More Svg M_NoHover">
+                                                <g>
+                                                 <path class="More More1" d="m1,10c0,-1.1 0.9,-2 2,-2s2,0.9 2,2s-0.9,2 -2,2s-2,-0.9 -2,-2zm9,2c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2s-2,0.9 -2,2s0.9,2 2,2zm7,0c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2s-2,0.9 -2,2s0.9,2 2,2z"/>
+                                                </g>
+                                               </svg>
+                                        </div>
+                                    </div>
+                                </header>
+                                <!--以下为正文部分---------------------------------------------------------------------------->
+                                <div class="text_1">
+                                    <div style="width: 100%; margin-bottom: 10px;">
+                                        复旦大学旅游管理专业属于全国旅游管理排名前三的专业，复旦大学旅游管理专业是旅游学、管理学、经济学、历史学等学科交叉发展起来的综合性应用性新兴专业。该专业注重基础理论研究与实际运用相结合，培养适合我国旅游事业发展需要的旅游事业管理和现代企业管理的专门人才。毕业生就业去向为各级政府、大中型酒店、国际旅行社、旅游企业等等。
+                                    </div>
+                                    <!--以下为图片部分------------------------------------------------------------------------>
+                                    <div style="width: 440px;height:auto;">
+                                        <div>
+                                            <ul class="Picture">
+                                                <li style="height: 100%;">
+                                                    <img src="image/articleP/foryou/1/1.jpeg" style="width: 440px;height:auto;border-radius: 5px;">
+                                                  </li>
+        
+                                            </ul>
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--以下为评论转发内容---------------------------------------------------------------------------->
+                            <footer class="footer_1">
+                                <div class="footer_2">
+                                    <!--点赞-------------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="D_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="D_NoClick Svg">
+                                                            <g>
+                                                             <path d="m7.496139,15.922328c-4.49935,-3.903925 -6.108047,-6.373478 -6.121084,-9.396658c-0.011889,-2.755999 1.973964,-5.415943 4.03195,-5.400604c1.027667,0.007675 3.232078,1.022034 4.012667,1.846453c0.393307,0.41539 0.579596,0.374428 1.455252,-0.319984c2.383166,-1.889894 4.710351,-1.929562 6.217538,-0.105973c2.408806,2.914478 1.970256,6.394897 -1.260681,10.005032c-1.717752,1.919357 -5.468946,5.324405 -5.865664,5.324405c-0.120716,0 -1.232205,-0.878704 -2.469978,-1.952671l0,0.000001z" stroke-width="2"/>
+                                                            </g>
+                                                           </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--评论-------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="P_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="P_NoHover Svg">
+                                                            <g>
+                                                             <path d="m0.875,3.44212l0,0c0,-1.107121 0.936238,-2.00462 2.091146,-2.00462l0.950521,0l0,0l4.562501,0l8.554686,0c0.554608,0 1.086498,0.2112 1.478665,0.587139c0.392164,0.375939 0.612482,0.885822 0.612482,1.41748l0,5.01155l0,0l0,3.006929l0,0c0,1.107121 -0.936237,2.00462 -2.091146,2.00462l-8.554686,0l-5.960344,5.097282l1.397843,-5.097282l-0.950521,0c-1.154908,0 -2.091146,-0.897498 -2.091146,-2.00462l0,0l0,-3.006929l0,0l-0.000001,-5.01155z" fill-opacity="null" stroke-width="2"/>
+                                                            </g>
+                                                           </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--转发-------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="Z_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="Z_NoHover Svg">
+                                                            <g>
+                                                             <path d="m3.52141,1.755l3.82842,4.20373l-1.17824,1.48248l-1.78636,-1.95971l0,8.58008c0,1.11693 0.77398,2.03079 1.72763,2.03079l4.75097,0l0,2.03079l-4.75097,0c-1.90816,0 -3.45525,-1.81756 -3.45525,-4.06158l0,-8.58008l-1.78636,1.95971l-1.17824,-1.48248l3.82842,-4.20373zm10.36575,2.15264l-4.75097,0l0,-2.03079l4.75097,0c1.90816,0 3.45525,1.81756 3.45525,4.06158l0,8.58008l1.78636,-1.95971l1.17824,1.48248l-3.82842,4.20373l-3.82842,-4.20373l1.17824,-1.48248l1.78636,1.95971l0,-8.58008c0,-1.11693 -0.77398,-2.03079 -1.72763,-2.03079z"/>
+                                                           </g>
+                                                          </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </footer>
+                        </div>
+                    </div>
+                    <div class="article_1 No_attend No_star No_black No_blacklist liar"><!--以下为帖子内容------------------------------------------------------------->
+                        <div class="article_2">
+                            <!--以下为头像文本图片内容-------------------------------------------------------------------->
+                            <div class="article_3">
+                                <header class="header_1">
+                                    <div class="header_P"><!--头像------------------------------------------------------->
+                                        <a href="#">
+                                            <img src="image/headP/liar/liar.jpeg" class="header_P1">
+                                        </a>
+                                    </div>
+                                    <!---->
+                                    <div class="header_2"><!--昵称时间----------------------------------------------------->
+                                        <div class="header_3">
+                                            <div class="header_4">
+                                                <div class="header_nickname">
+                                                    <a href="#">
+                                                        <span>Liar</span>
+                                                    </a>
+                                                </div>
+                                                <div class="header_username">
+                                                    <a href="#">
+                                                        <span>@liar</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="header_time">
+                                                <a href="#">
+                                                    <span></span>
+                                                </a>
+                                            </div>
+                                            <div class="header_introduction">
+                                                <span>个人简介</span>
+                                            </div>
+                                            <div class="header_userid">
+                                                <span>liar</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!---->
+                                    <div class="header_5"><!--更多页面-------------------------------------------------------->
+                                        <div class="header_More">
+                                            <div class="More header_More_Detail">
+                                                <div class="header_More_First">
+                                                    <div class="More header_More_Text more_Star">
+                                                        <span style="pointer-events:none;">收藏</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text">
+                                                        <span style="pointer-events:none;">分享</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text more_Black">
+                                                        <span style="pointer-events:none;">屏蔽文章</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text more_Blacklist">
+                                                        <span style="pointer-events:none;">屏蔽作者</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Last">
+                                                    <div class="More header_More_Text">
+                                                        <span style="pointer-events:none;">举报文章</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="M_Svg">
+                                            <div class="More CircleBack"></div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="More Svg M_NoHover">
+                                                <g>
+                                                 <path class="More More1" d="m1,10c0,-1.1 0.9,-2 2,-2s2,0.9 2,2s-0.9,2 -2,2s-2,-0.9 -2,-2zm9,2c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2s-2,0.9 -2,2s0.9,2 2,2zm7,0c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2s-2,0.9 -2,2s0.9,2 2,2z"/>
+                                                </g>
+                                               </svg>
+                                        </div>
+                                    </div>
+                                </header>
+                                <!--以下为正文部分---------------------------------------------------------------------------->
+                                <div class="text_1">
+                                    <div style="width: 100%; margin-bottom: 10px;">
+                                        给雪山命名，是人与自然最和谐的一件事。这不仅仅是说出名字，还要娓娓道来，说明由来和传说。你看，认识一座雪山，就如引荐一位朋友，是朋之幸，是友之幸。
+                                    </div>
+                                    <!--以下为图片部分------------------------------------------------------------------------>
+                                    <div style="width: 440px;height:auto;">
+                                        <div>
+                                            <ul class="Picture">
+                                              <li style="overflow:hidden;">
+                                                <img class="zoomify" src="image/articleP/liar/2/1.jpeg" style="position: relative;border-radius: 5px;">
+                                              </li>
+                                              <li style="overflow:hidden;">
+                                                <img class="zoomify" src="image/articleP/liar/2/2.jpeg" style="position: relative;border-radius: 5px;">
+                                              </li>
+                                              <li style="overflow:hidden;">
+                                                <img class="zoomify" src="image/articleP/liar/2/3.jpeg" style="position: relative;border-radius: 5px;">
+                                              </li>
+                                              <li style="overflow:hidden;">
+                                                <img class="zoomify" src="image/articleP/liar/2/4.jpeg" style="position: relative;border-radius: 5px;">
+                                              </li>
+                                              <li style="overflow:hidden;">
+                                                <img class="zoomify" src="image/articleP/liar/2/5.jpeg" style="position: relative;border-radius: 5px;">
+                                              </li>
+                                              <li style="overflow:hidden;">
+                                                <img class="zoomify" src="image/articleP/liar/2/6.jpeg" style="position: relative;border-radius: 5px;">
+                                              </li>
+                                              <li style="overflow:hidden;">
+                                                <img class="zoomify" src="image/articleP/liar/2/7.jpeg" style="position: relative;border-radius: 5px;">
+                                              </li>
+                                              <li style="overflow:hidden;">
+                                                <img class="zoomify" src="image/articleP/liar/2/8.jpeg" style="position: relative;border-radius: 5px;">
+                                              </li>
+                                              <li style="overflow:hidden;">
+                                                <img class="zoomify" src="image/articleP/liar/2/9.jpeg" style="position: relative;border-radius: 5px;">
+                                              </li>
+        
+                                            </ul>
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--以下为评论转发内容---------------------------------------------------------------------------->
+                            <footer class="footer_1">
+                                <div class="footer_2">
+                                    <!--点赞-------------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="D_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="D_NoClick Svg">
+                                                            <g>
+                                                             <path d="m7.496139,15.922328c-4.49935,-3.903925 -6.108047,-6.373478 -6.121084,-9.396658c-0.011889,-2.755999 1.973964,-5.415943 4.03195,-5.400604c1.027667,0.007675 3.232078,1.022034 4.012667,1.846453c0.393307,0.41539 0.579596,0.374428 1.455252,-0.319984c2.383166,-1.889894 4.710351,-1.929562 6.217538,-0.105973c2.408806,2.914478 1.970256,6.394897 -1.260681,10.005032c-1.717752,1.919357 -5.468946,5.324405 -5.865664,5.324405c-0.120716,0 -1.232205,-0.878704 -2.469978,-1.952671l0,0.000001z" stroke-width="2"/>
+                                                            </g>
+                                                           </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--评论-------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="P_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="P_NoHover Svg">
+                                                            <g>
+                                                             <path d="m0.875,3.44212l0,0c0,-1.107121 0.936238,-2.00462 2.091146,-2.00462l0.950521,0l0,0l4.562501,0l8.554686,0c0.554608,0 1.086498,0.2112 1.478665,0.587139c0.392164,0.375939 0.612482,0.885822 0.612482,1.41748l0,5.01155l0,0l0,3.006929l0,0c0,1.107121 -0.936237,2.00462 -2.091146,2.00462l-8.554686,0l-5.960344,5.097282l1.397843,-5.097282l-0.950521,0c-1.154908,0 -2.091146,-0.897498 -2.091146,-2.00462l0,0l0,-3.006929l0,0l-0.000001,-5.01155z" fill-opacity="null" stroke-width="2"/>
+                                                            </g>
+                                                           </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--转发-------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="Z_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="Z_NoHover Svg">
+                                                            <g>
+                                                             <path d="m3.52141,1.755l3.82842,4.20373l-1.17824,1.48248l-1.78636,-1.95971l0,8.58008c0,1.11693 0.77398,2.03079 1.72763,2.03079l4.75097,0l0,2.03079l-4.75097,0c-1.90816,0 -3.45525,-1.81756 -3.45525,-4.06158l0,-8.58008l-1.78636,1.95971l-1.17824,-1.48248l3.82842,-4.20373zm10.36575,2.15264l-4.75097,0l0,-2.03079l4.75097,0c1.90816,0 3.45525,1.81756 3.45525,4.06158l0,8.58008l1.78636,-1.95971l1.17824,1.48248l-3.82842,4.20373l-3.82842,-4.20373l1.17824,-1.48248l1.78636,1.95971l0,-8.58008c0,-1.11693 -0.77398,-2.03079 -1.72763,-2.03079z"/>
+                                                           </g>
+                                                          </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </footer>
+                        </div>
+                    </div>
+                    <div class="article_1 No_attend No_star No_black No_blacklist iKun121"><!--以下为帖子内容------------------------------------------------------------->
+                        <div class="article_2">
+                            <!--以下为头像文本图片内容-------------------------------------------------------------------->
+                            <div class="article_3">
+                                <header class="header_1">
+                                    <div class="header_P"><!--头像------------------------------------------------------->
+                                        <a href="#">
+                                            <img src="image/headP/iKun121/ikun.jpeg" class="header_P1">
+                                        </a>
+                                    </div>
+                                    <!---->
+                                    <div class="header_2"><!--昵称时间----------------------------------------------------->
+                                        <div class="header_3">
+                                            <div class="header_4">
+                                                <div class="header_nickname">
+                                                    <a href="#">
+                                                        <span>开朗的网友</span>
+                                                    </a>
+                                                </div>
+                                                <div class="header_username">
+                                                    <a href="#">
+                                                        <span>@iKun121</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="header_time">
+                                                <a href="#">
+                                                    <span></span>
+                                                </a>
+                                            </div>
+                                            <div class="header_introduction">
+                                                <span>个人简介</span>
+                                            </div>
+                                            <div class="header_userid">
+                                                <span>iKun121</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!---->
+                                    <div class="header_5"><!--更多页面-------------------------------------------------------->
+                                        <div class="header_More">
+                                            <div class="More header_More_Detail">
+                                                <div class="header_More_First">
+                                                    <div class="More header_More_Text more_Star">
+                                                        <span style="pointer-events:none;">收藏</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text">
+                                                        <span style="pointer-events:none;">分享</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text more_Black">
+                                                        <span style="pointer-events:none;">屏蔽文章</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text more_Blacklist">
+                                                        <span style="pointer-events:none;">屏蔽作者</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Last">
+                                                    <div class="More header_More_Text">
+                                                        <span style="pointer-events:none;">举报文章</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="M_Svg">
+                                            <div class="More CircleBack"></div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="More Svg M_NoHover">
+                                                <g>
+                                                 <path class="More More1" d="m1,10c0,-1.1 0.9,-2 2,-2s2,0.9 2,2s-0.9,2 -2,2s-2,-0.9 -2,-2zm9,2c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2s-2,0.9 -2,2s0.9,2 2,2zm7,0c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2s-2,0.9 -2,2s0.9,2 2,2z"/>
+                                                </g>
+                                               </svg>
+                                        </div>
+                                    </div>
+                                </header>
+                                <!--以下为正文部分---------------------------------------------------------------------------->
+                                <div class="text_1">
+                                    <div style="width: 100%; margin-bottom: 10px;">
+                                        我看很多人对旅游管理有很大的意见所入门低不好就业之类的。但是作为一个旅游管理专业的我来说，旅游管理很有发展前途的，就业方面也比较广，像导游，旅行社，民宿这些方面都可以去发展的，喜欢设计的还可以去发展策划，帮助自己家乡脱贫。学校好的话读书期间老师还会带着出去见见世面。
+                                    </div>
+                                    <!--以下为图片部分------------------------------------------------------------------------>
+                                    <div style="width: 440px;height:auto;">
+                                        <div>
+                                            <ul class="Picture">
+                                              <li style="overflow:hidden;">
+                                                <img src="image/articleP/iKun121/1/1.jpeg" style="position: relative;border-radius: 5px;">
+                                              </li>
+                                              <li style="overflow:hidden;">
+                                                <img src="image/articleP/iKun121/1/2.jpeg" style="position: relative;border-radius: 5px;">
+                                              </li>
+        
+                                            </ul>
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--以下为评论转发内容---------------------------------------------------------------------------->
+                            <footer class="footer_1">
+                                <div class="footer_2">
+                                    <!--点赞-------------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="D_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="D_NoClick Svg">
+                                                            <g>
+                                                             <path d="m7.496139,15.922328c-4.49935,-3.903925 -6.108047,-6.373478 -6.121084,-9.396658c-0.011889,-2.755999 1.973964,-5.415943 4.03195,-5.400604c1.027667,0.007675 3.232078,1.022034 4.012667,1.846453c0.393307,0.41539 0.579596,0.374428 1.455252,-0.319984c2.383166,-1.889894 4.710351,-1.929562 6.217538,-0.105973c2.408806,2.914478 1.970256,6.394897 -1.260681,10.005032c-1.717752,1.919357 -5.468946,5.324405 -5.865664,5.324405c-0.120716,0 -1.232205,-0.878704 -2.469978,-1.952671l0,0.000001z" stroke-width="2"/>
+                                                            </g>
+                                                           </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--评论-------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="P_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="P_NoHover Svg">
+                                                            <g>
+                                                             <path d="m0.875,3.44212l0,0c0,-1.107121 0.936238,-2.00462 2.091146,-2.00462l0.950521,0l0,0l4.562501,0l8.554686,0c0.554608,0 1.086498,0.2112 1.478665,0.587139c0.392164,0.375939 0.612482,0.885822 0.612482,1.41748l0,5.01155l0,0l0,3.006929l0,0c0,1.107121 -0.936237,2.00462 -2.091146,2.00462l-8.554686,0l-5.960344,5.097282l1.397843,-5.097282l-0.950521,0c-1.154908,0 -2.091146,-0.897498 -2.091146,-2.00462l0,0l0,-3.006929l0,0l-0.000001,-5.01155z" fill-opacity="null" stroke-width="2"/>
+                                                            </g>
+                                                           </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--转发-------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="Z_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="Z_NoHover Svg">
+                                                            <g>
+                                                             <path d="m3.52141,1.755l3.82842,4.20373l-1.17824,1.48248l-1.78636,-1.95971l0,8.58008c0,1.11693 0.77398,2.03079 1.72763,2.03079l4.75097,0l0,2.03079l-4.75097,0c-1.90816,0 -3.45525,-1.81756 -3.45525,-4.06158l0,-8.58008l-1.78636,1.95971l-1.17824,-1.48248l3.82842,-4.20373zm10.36575,2.15264l-4.75097,0l0,-2.03079l4.75097,0c1.90816,0 3.45525,1.81756 3.45525,4.06158l0,8.58008l1.78636,-1.95971l1.17824,1.48248l-3.82842,4.20373l-3.82842,-4.20373l1.17824,-1.48248l1.78636,1.95971l0,-8.58008c0,-1.11693 -0.77398,-2.03079 -1.72763,-2.03079z"/>
+                                                           </g>
+                                                          </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </footer>
+                        </div>
+                    </div>
+                    <div class="article_1 No_attend No_star No_black No_blacklist foryou"><!--以下为帖子内容------------------------------------------------------------->
+                        <div class="article_2">
+                            <!--以下为头像文本图片内容-------------------------------------------------------------------->
+                            <div class="article_3">
+                                <header class="header_1">
+                                    <div class="header_P"><!--头像------------------------------------------------------->
+                                        <a href="#">
+                                            <img src="image/headP/foryou/foryou.jpg" class="header_P1">
+                                        </a>
+                                    </div>
+                                    <!---->
+                                    <div class="header_2"><!--昵称时间----------------------------------------------------->
+                                        <div class="header_3">
+                                            <div class="header_4">
+                                                <div class="header_nickname">
+                                                    <a href="#">
+                                                        <span>只因你太美</span>
+                                                    </a>
+                                                </div>
+                                                <div class="header_username">
+                                                    <a href="#">
+                                                        <span>@foryou</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="header_time">
+                                                <a href="#">
+                                                    <span></span>
+                                                </a>
+                                            </div>
+                                            <div class="header_introduction">
+                                                <span>个人简介</span>
+                                            </div>
+                                            <div class="header_userid">
+                                                <span>foryou</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!---->
+                                    <div class="header_5"><!--更多页面-------------------------------------------------------->
+                                        <div class="header_More">
+                                            <div class="More header_More_Detail">
+                                                <div class="header_More_First">
+                                                    <div class="More header_More_Text more_Star">
+                                                        <span style="pointer-events:none;">收藏</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text">
+                                                        <span style="pointer-events:none;">分享</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text more_Black">
+                                                        <span style="pointer-events:none;">屏蔽文章</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text more_Blacklist">
+                                                        <span style="pointer-events:none;">屏蔽作者</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Last">
+                                                    <div class="More header_More_Text">
+                                                        <span style="pointer-events:none;">举报文章</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="M_Svg">
+                                            <div class="More CircleBack"></div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="More Svg M_NoHover">
+                                                <g>
+                                                 <path class="More More1" d="m1,10c0,-1.1 0.9,-2 2,-2s2,0.9 2,2s-0.9,2 -2,2s-2,-0.9 -2,-2zm9,2c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2s-2,0.9 -2,2s0.9,2 2,2zm7,0c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2s-2,0.9 -2,2s0.9,2 2,2z"/>
+                                                </g>
+                                               </svg>
+                                        </div>
+                                    </div>
+                                </header>
+                                <!--以下为正文部分---------------------------------------------------------------------------->
+                                <div class="text_1">
+                                    <div style="width: 100%; margin-bottom: 10px;">
+                                        虽然旅游管理是很传统的专业，但近年来缺有很多新变化，特别是跟互联网在线化结合以后，形成了很多新型职业，例如定制旅游平台，旅游直播，网红打卡旅游，民宿旅游等新业态，我们也是在不断适应变革，在专业方面进行优化，设立了电子商务，大数据，商业分析等新知识，新内容适应行业发展新趋势。再一点，选择学校，城市对这个专业真的很重要，我们的学生能有好的实习机会决定了未来职业的起点不同。
+                                    </div>
+                                    <!--以下为图片部分------------------------------------------------------------------------>
+                                    <div style="width: 440px;height:auto;">
+                                        <div>
+                                            <ul class="Picture">
+                                                <li style="height: 100%;">
+                                                    <img src="image/articleP/August/2/1.jpeg" style="width: 440px;height:auto;border-radius: 5px;">
+                                                  </li>
+        
+                                            </ul>
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--以下为评论转发内容---------------------------------------------------------------------------->
+                            <footer class="footer_1">
+                                <div class="footer_2">
+                                    <!--点赞-------------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="D_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="D_NoClick Svg">
+                                                            <g>
+                                                             <path d="m7.496139,15.922328c-4.49935,-3.903925 -6.108047,-6.373478 -6.121084,-9.396658c-0.011889,-2.755999 1.973964,-5.415943 4.03195,-5.400604c1.027667,0.007675 3.232078,1.022034 4.012667,1.846453c0.393307,0.41539 0.579596,0.374428 1.455252,-0.319984c2.383166,-1.889894 4.710351,-1.929562 6.217538,-0.105973c2.408806,2.914478 1.970256,6.394897 -1.260681,10.005032c-1.717752,1.919357 -5.468946,5.324405 -5.865664,5.324405c-0.120716,0 -1.232205,-0.878704 -2.469978,-1.952671l0,0.000001z" stroke-width="2"/>
+                                                            </g>
+                                                           </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--评论-------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="P_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="P_NoHover Svg">
+                                                            <g>
+                                                             <path d="m0.875,3.44212l0,0c0,-1.107121 0.936238,-2.00462 2.091146,-2.00462l0.950521,0l0,0l4.562501,0l8.554686,0c0.554608,0 1.086498,0.2112 1.478665,0.587139c0.392164,0.375939 0.612482,0.885822 0.612482,1.41748l0,5.01155l0,0l0,3.006929l0,0c0,1.107121 -0.936237,2.00462 -2.091146,2.00462l-8.554686,0l-5.960344,5.097282l1.397843,-5.097282l-0.950521,0c-1.154908,0 -2.091146,-0.897498 -2.091146,-2.00462l0,0l0,-3.006929l0,0l-0.000001,-5.01155z" fill-opacity="null" stroke-width="2"/>
+                                                            </g>
+                                                           </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--转发-------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="Z_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="Z_NoHover Svg">
+                                                            <g>
+                                                             <path d="m3.52141,1.755l3.82842,4.20373l-1.17824,1.48248l-1.78636,-1.95971l0,8.58008c0,1.11693 0.77398,2.03079 1.72763,2.03079l4.75097,0l0,2.03079l-4.75097,0c-1.90816,0 -3.45525,-1.81756 -3.45525,-4.06158l0,-8.58008l-1.78636,1.95971l-1.17824,-1.48248l3.82842,-4.20373zm10.36575,2.15264l-4.75097,0l0,-2.03079l4.75097,0c1.90816,0 3.45525,1.81756 3.45525,4.06158l0,8.58008l1.78636,-1.95971l1.17824,1.48248l-3.82842,4.20373l-3.82842,-4.20373l1.17824,-1.48248l1.78636,1.95971l0,-8.58008c0,-1.11693 -0.77398,-2.03079 -1.72763,-2.03079z"/>
+                                                           </g>
+                                                          </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </footer>
+                        </div>
+                    </div>
+                    <div class="article_1 No_attend No_star No_black No_blacklist liar"><!--以下为帖子内容------------------------------------------------------------->
+                        <div class="article_2">
+                            <!--以下为头像文本图片内容-------------------------------------------------------------------->
+                            <div class="article_3">
+                                <header class="header_1">
+                                    <div class="header_P"><!--头像------------------------------------------------------->
+                                        <a href="#">
+                                            <img src="image/headP/liar/liar.jpeg" class="header_P1">
+                                        </a>
+                                    </div>
+                                    <!---->
+                                    <div class="header_2"><!--昵称时间----------------------------------------------------->
+                                        <div class="header_3">
+                                            <div class="header_4">
+                                                <div class="header_nickname">
+                                                    <a href="#">
+                                                        <span>Liar</span>
+                                                    </a>
+                                                </div>
+                                                <div class="header_username">
+                                                    <a href="#">
+                                                        <span>@liar</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="header_time">
+                                                <a href="#">
+                                                    <span></span>
+                                                </a>
+                                            </div>
+                                            <div class="header_introduction">
+                                                <span>个人简介</span>
+                                            </div>
+                                            <div class="header_userid">
+                                                <span>liar</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!---->
+                                    <div class="header_5"><!--更多页面-------------------------------------------------------->
+                                        <div class="header_More">
+                                            <div class="More header_More_Detail">
+                                                <div class="header_More_First">
+                                                    <div class="More header_More_Text more_Star">
+                                                        <span style="pointer-events:none;">收藏</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text">
+                                                        <span style="pointer-events:none;">分享</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text more_Black">
+                                                        <span style="pointer-events:none;">屏蔽文章</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text more_Blacklist">
+                                                        <span style="pointer-events:none;">屏蔽作者</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Last">
+                                                    <div class="More header_More_Text">
+                                                        <span style="pointer-events:none;">举报文章</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="M_Svg">
+                                            <div class="More CircleBack"></div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="More Svg M_NoHover">
+                                                <g>
+                                                 <path class="More More1" d="m1,10c0,-1.1 0.9,-2 2,-2s2,0.9 2,2s-0.9,2 -2,2s-2,-0.9 -2,-2zm9,2c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2s-2,0.9 -2,2s0.9,2 2,2zm7,0c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2s-2,0.9 -2,2s0.9,2 2,2z"/>
+                                                </g>
+                                               </svg>
+                                        </div>
+                                    </div>
+                                </header>
+                                <!--以下为正文部分---------------------------------------------------------------------------->
+                                <div class="text_1">
+                                    <div style="width: 100%; margin-bottom: 10px;">
+                                        
+                                    </div>
+                                    <!--以下为图片部分------------------------------------------------------------------------>
+                                    <div style="width: 440px;height:auto;">
+                                        <div>
+                                            <ul class="Picture">
+                                              <li style="overflow:hidden;">
+                                                <img src="image/articleP/liar/1/1.jpeg" style="position: relative;border-radius: 5px;">
+                                              </li>
+                                              <li style="overflow:hidden;">
+                                                <img src="image/articleP/liar/1/2.jpeg" style="position: relative;border-radius: 5px;">
+                                              </li>
+                                              <li style="overflow:hidden;">
+                                                <img src="image/articleP/liar/1/3.jpeg" style="position: relative;border-radius: 5px;">
+                                              </li>
+                                              <li style="overflow:hidden;">
+                                                <img src="image/articleP/liar/1/4.jpeg" style="position: relative;border-radius: 5px;">
+                                              </li>
+                                              <li style="overflow:hidden;">
+                                                <img src="image/articleP/liar/1/5.jpeg" style="position: relative;border-radius: 5px;">
+                                              </li>
+                                              <li style="overflow:hidden;">
+                                                <img src="image/articleP/liar/1/6.jpeg" style="position: relative;border-radius: 5px;">
+                                              </li>
+                                              <li style="overflow:hidden;">
+                                                <img src="image/articleP/liar/1/7.jpeg" style="position: relative;border-radius: 5px;">
+                                              </li>
+                                              <li style="overflow:hidden;">
+                                                <img src="image/articleP/liar/1/8.jpeg" style="position: relative;border-radius: 5px;">
+                                              </li>
+                                              <li style="overflow:hidden;">
+                                                <img src="image/articleP/liar/1/9.jpeg" style="position: relative;border-radius: 5px;">
+                                              </li>
+        
+                                            </ul>
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--以下为评论转发内容---------------------------------------------------------------------------->
+                            <footer class="footer_1">
+                                <div class="footer_2">
+                                    <!--点赞-------------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="D_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="D_NoClick Svg">
+                                                            <g>
+                                                             <path d="m7.496139,15.922328c-4.49935,-3.903925 -6.108047,-6.373478 -6.121084,-9.396658c-0.011889,-2.755999 1.973964,-5.415943 4.03195,-5.400604c1.027667,0.007675 3.232078,1.022034 4.012667,1.846453c0.393307,0.41539 0.579596,0.374428 1.455252,-0.319984c2.383166,-1.889894 4.710351,-1.929562 6.217538,-0.105973c2.408806,2.914478 1.970256,6.394897 -1.260681,10.005032c-1.717752,1.919357 -5.468946,5.324405 -5.865664,5.324405c-0.120716,0 -1.232205,-0.878704 -2.469978,-1.952671l0,0.000001z" stroke-width="2"/>
+                                                            </g>
+                                                           </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--评论-------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="P_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="P_NoHover Svg">
+                                                            <g>
+                                                             <path d="m0.875,3.44212l0,0c0,-1.107121 0.936238,-2.00462 2.091146,-2.00462l0.950521,0l0,0l4.562501,0l8.554686,0c0.554608,0 1.086498,0.2112 1.478665,0.587139c0.392164,0.375939 0.612482,0.885822 0.612482,1.41748l0,5.01155l0,0l0,3.006929l0,0c0,1.107121 -0.936237,2.00462 -2.091146,2.00462l-8.554686,0l-5.960344,5.097282l1.397843,-5.097282l-0.950521,0c-1.154908,0 -2.091146,-0.897498 -2.091146,-2.00462l0,0l0,-3.006929l0,0l-0.000001,-5.01155z" fill-opacity="null" stroke-width="2"/>
+                                                            </g>
+                                                           </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--转发-------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="Z_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="Z_NoHover Svg">
+                                                            <g>
+                                                             <path d="m3.52141,1.755l3.82842,4.20373l-1.17824,1.48248l-1.78636,-1.95971l0,8.58008c0,1.11693 0.77398,2.03079 1.72763,2.03079l4.75097,0l0,2.03079l-4.75097,0c-1.90816,0 -3.45525,-1.81756 -3.45525,-4.06158l0,-8.58008l-1.78636,1.95971l-1.17824,-1.48248l3.82842,-4.20373zm10.36575,2.15264l-4.75097,0l0,-2.03079l4.75097,0c1.90816,0 3.45525,1.81756 3.45525,4.06158l0,8.58008l1.78636,-1.95971l1.17824,1.48248l-3.82842,4.20373l-3.82842,-4.20373l1.17824,-1.48248l1.78636,1.95971l0,-8.58008c0,-1.11693 -0.77398,-2.03079 -1.72763,-2.03079z"/>
+                                                           </g>
+                                                          </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </footer>
+                        </div>
+                    </div>
+                    <div class="article_1 No_attend No_star No_black No_blacklist August"><!--以下为帖子内容------------------------------------------------------------->
+                        <div class="article_2">
+                            <!--以下为头像文本图片内容-------------------------------------------------------------------->
+                            <div class="article_3">
+                                <header class="header_1">
+                                    <div class="header_P"><!--头像------------------------------------------------------->
+                                        <a href="#">
+                                            <img src="image/headP/August/August.jpeg" class="header_P1">
+                                        </a>
+                                    </div>
+                                    <!---->
+                                    <div class="header_2"><!--昵称时间----------------------------------------------------->
+                                        <div class="header_3">
+                                            <div class="header_4">
+                                                <div class="header_nickname">
+                                                    <a href="#">
+                                                        <span>最美的八月</span>
+                                                    </a>
+                                                </div>
+                                                <div class="header_username">
+                                                    <a href="#">
+                                                        <span>@August</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="header_time">
+                                                <a href="#">
+                                                    <span></span>
+                                                </a>
+                                            </div>
+                                            <div class="header_introduction">
+                                                <span>个人简介</span>
+                                            </div>
+                                            <div class="header_userid">
+                                                <span>August</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!---->
+                                    <div class="header_5"><!--更多页面-------------------------------------------------------->
+                                        <div class="header_More">
+                                            <div class="More header_More_Detail">
+                                                <div class="header_More_First">
+                                                    <div class="More header_More_Text more_Star">
+                                                        <span style="pointer-events:none;">收藏</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text">
+                                                        <span style="pointer-events:none;">分享</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text more_Black">
+                                                        <span style="pointer-events:none;">屏蔽文章</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Center">
+                                                    <div class="More header_More_Text more_Blacklist">
+                                                        <span style="pointer-events:none;">屏蔽作者</span>
+                                                    </div>
+                                                </div>
+                                                <div class="header_More_Last">
+                                                    <div class="More header_More_Text">
+                                                        <span style="pointer-events:none;">举报文章</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="M_Svg">
+                                            <div class="More CircleBack"></div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="More Svg M_NoHover">
+                                                <g>
+                                                 <path class="More More1" d="m1,10c0,-1.1 0.9,-2 2,-2s2,0.9 2,2s-0.9,2 -2,2s-2,-0.9 -2,-2zm9,2c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2s-2,0.9 -2,2s0.9,2 2,2zm7,0c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2s-2,0.9 -2,2s0.9,2 2,2z"/>
+                                                </g>
+                                               </svg>
+                                        </div>
+                                    </div>
+                                </header>
+                                <!--以下为正文部分---------------------------------------------------------------------------->
+                                <div class="text_1">
+                                    <div style="width: 100%; margin-bottom: 10px;">
+                                        旅游是人类认识自然、改造自然、驾驭自然的一种生动反映,弄清旅游与文化的关系,全面加强旅游文化建设,提升旅游文化品位,对于提高旅游行业素质,增强市场生存能力和竞争力,促进旅游产业更快更好地发展,具有特殊意义。
+                                    </div>
+                                    <!--以下为图片部分------------------------------------------------------------------------>
+                                    <div style="width: 440px;height:auto;">
+                                        <div>
+                                            <ul class="Picture">
+                                              <li style="height: 100%;">
+                                                <img src="image/articleP/August/1/1.jpeg" style="width: 440px;height:auto;border-radius: 5px;">
+                                              </li>
+                                            </ul>
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--以下为评论转发内容---------------------------------------------------------------------------->
+                            <footer class="footer_1">
+                                <div class="footer_2">
+                                    <!--点赞-------------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="D_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="D_NoClick Svg">
+                                                            <g>
+                                                             <path d="m7.496139,15.922328c-4.49935,-3.903925 -6.108047,-6.373478 -6.121084,-9.396658c-0.011889,-2.755999 1.973964,-5.415943 4.03195,-5.400604c1.027667,0.007675 3.232078,1.022034 4.012667,1.846453c0.393307,0.41539 0.579596,0.374428 1.455252,-0.319984c2.383166,-1.889894 4.710351,-1.929562 6.217538,-0.105973c2.408806,2.914478 1.970256,6.394897 -1.260681,10.005032c-1.717752,1.919357 -5.468946,5.324405 -5.865664,5.324405c-0.120716,0 -1.232205,-0.878704 -2.469978,-1.952671l0,0.000001z" stroke-width="2"/>
+                                                            </g>
+                                                           </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--评论-------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="P_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="P_NoHover Svg">
+                                                            <g>
+                                                             <path d="m0.875,3.44212l0,0c0,-1.107121 0.936238,-2.00462 2.091146,-2.00462l0.950521,0l0,0l4.562501,0l8.554686,0c0.554608,0 1.086498,0.2112 1.478665,0.587139c0.392164,0.375939 0.612482,0.885822 0.612482,1.41748l0,5.01155l0,0l0,3.006929l0,0c0,1.107121 -0.936237,2.00462 -2.091146,2.00462l-8.554686,0l-5.960344,5.097282l1.397843,-5.097282l-0.950521,0c-1.154908,0 -2.091146,-0.897498 -2.091146,-2.00462l0,0l0,-3.006929l0,0l-0.000001,-5.01155z" fill-opacity="null" stroke-width="2"/>
+                                                            </g>
+                                                           </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--转发-------------------------------------------------------------------------------->
+                                    <div class="footer_3">
+                                        <div class="footer_4">
+                                            <div class="footer_5">
+                                                <div class="footer_6">
+                                                    <div class="Z_Svg-Num">
+                                                        <div class="CircleBack"></div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="Z_NoHover Svg">
+                                                            <g>
+                                                             <path d="m3.52141,1.755l3.82842,4.20373l-1.17824,1.48248l-1.78636,-1.95971l0,8.58008c0,1.11693 0.77398,2.03079 1.72763,2.03079l4.75097,0l0,2.03079l-4.75097,0c-1.90816,0 -3.45525,-1.81756 -3.45525,-4.06158l0,-8.58008l-1.78636,1.95971l-1.17824,-1.48248l3.82842,-4.20373zm10.36575,2.15264l-4.75097,0l0,-2.03079l4.75097,0c1.90816,0 3.45525,1.81756 3.45525,4.06158l0,8.58008l1.78636,-1.95971l1.17824,1.48248l-3.82842,4.20373l-3.82842,-4.20373l1.17824,-1.48248l1.78636,1.95971l0,-8.58008c0,-1.11693 -0.77398,-2.03079 -1.72763,-2.03079z"/>
+                                                           </g>
+                                                          </svg>
+                                                        <span class="D_Number Number"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </footer>
+                        </div>
+                    </div>     
+                </div>
+                <div style="width: 300px;height: 400px;margin-left: 10px;margin-top: 40px;"><!--右导航栏-------------------------------------------------------------->
+                    <div style="position:fixed;width: 300px;height: 400px;">
+                        <div style="width: 300px;height:400px;display: flex;flex-direction: column;align-items: center;">
+                            <div style="font-size: 26px;margin: 5px 0;">旅管要闻</div>
+                            <div style="width:250px;height: 20px;margin: 5px 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                <a target="_blank"href="http://tourism.fudan.edu.cn/87/4b/c6623a427851/page.htm">复旦大学数字文化保护与旅游数据智能计算文化和旅游部重点实验室成立仪式暨第一次学术委员会会议顺利召开</a>                            
+                            </div>
+                            <div style="width:250px;height: 20px;margin: 5px 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                <a target="_blank"href="http://tourism.fudan.edu.cn/76/32/c6623a423474/page.htm">活动纪实 | 旅游学系本科生期末交流活动</a>                            
+                            </div>
+                            <div style="width:250px;height: 20px;margin: 5px 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                <a target="_blank"href="http://tourism.fudan.edu.cn/6c/16/c6623a420886/page.htm">基层安、天下安，历史旅游党支部参访创智坊社区党支部</a>                            
+                            </div>
+                            <div style="width:250px;height: 20px;margin: 5px 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                <a target="_blank"href="http://tourism.fudan.edu.cn/d4/f0/c6623a54512/page.htm">MTA学生积极参与复旦-南卡旅游研究联合课堂交流活动</a>                            
+                            </div>
+                            <div style="width:250px;height: 20px;margin: 5px 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                <a target="_blank"href="http://tourism.fudan.edu.cn/58/e4/c6623a415972/page.htm">导师访谈 | 薛岚：“解惑”Q&A——旅游管理学新生指南</a>                            
+                            </div>
+                            <div style="width:250px;height: 20px;margin: 5px 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                <a target="_blank"href="http://tourism.fudan.edu.cn/57/39/c6623a415545/page.htm">2021年秋季学期『导师下午茶』活动第一弹</a>                            
+                            </div>
+                            <div style="width:250px;height: 20px;margin: 5px 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                <a target="_blank"href="http://tourism.fudan.edu.cn/56/6b/c6623a415339/page.htm">复旦大学旅游学系旅游管理专业荣获2021年软科A+专业</a>                            
+                            </div>
+                            <div style="width:250px;height: 20px;margin: 5px 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                <a target="_blank"href="http://tourism.fudan.edu.cn/cd/f5/c6623a118261/page.htm">复旦大学与中山大学旅游学科双边交流活动圆满结束</a>                            
+                            </div>
+                            <div style="width:250px;height: 20px;margin: 5px 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                <a target="_blank"href="http://tourism.fudan.edu.cn/ae/da/c6623a110298/page.htm">“旅游创新与人才培养”国际学术讨论会</a>                            
+                            </div>
+                            <div style="width:250px;height: 20px;margin: 5px 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                <a target="_blank"href="http://tourism.fudan.edu.cn/ad/1f/c6623a109855/page.htm">“互联网思维下的旅游创新与发展”青年论坛</a>                            
+                            </div>
+                            <div style="width:250px;height: 20px;margin: 5px 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                <a target="_blank"href="http://tourism.fudan.edu.cn/0e/da/c6623a69338/page.htm">“旅游发展与社会转型”国际学术讨论会顺利举行</a>                            
+                            </div>
+                            <div style="width:250px;height: 20px;margin: 5px 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                <a target="_blank"href="http://tourism.fudan.edu.cn/08/6f/c6623a67695/page.htm">雄狮创新密码-O2O&3C&Lifestyle——台湾雄狮旅游集团董事长王文杰在复旦大学的讲座</a>                            
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+</body>
+
+</html>
