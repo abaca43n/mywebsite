@@ -194,13 +194,14 @@ a:active{
 .article_3{/*文章整体第三层，可修改圆角*/
     display: flex;
     flex-direction: column;
-    width:560px ;
+    width:600px ;
     height:auto;
     background-color:white;
     padding: 20px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     box-shadow:0 0 3px 1px grey;
+    box-sizing: border-box;
 }
 .header_1{/*文章头像，昵称，时间第一层*/
     display:flex;
@@ -342,11 +343,11 @@ a:active{
 .footer_2{/*评论点赞转发第二层*/
     display:flex;
     justify-content:center;
-    width: 510px;
+    width: 570px;
     height: 40px;
 }
 .footer_3{/*评论点赞转发第三层*/
-    width: 170px;
+    width: 190px;
     height:40px
 }
 .footer_4{/*评论点赞转发第四层*/
@@ -438,4 +439,31 @@ a:active{
     height:20px;
     margin-left: 30px;
     display: block;
+}
+/*----------------------------------------------------------------------*/
+.ul {
+	padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    width: 430px;
+    height: auto;
+    margin: 0;
+}
+
+.li { 
+  list-style: none;
+  text-align: center;
+  border-radius: 5px;
+  width: 140px;
+  height: 140px;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  cursor:zoom-in;
+}
+li:nth-of-type(3n){ 
+  margin-right: 0;
+}
+
+li:nth-of-type(n+7){ 
+  margin-bottom: 0;
 }
